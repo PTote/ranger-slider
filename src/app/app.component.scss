@@ -1,0 +1,22 @@
+.slider-container {
+  position: relative;
+}
+
+.slider {
+  width: 273.59px;
+}
+
+.guides {
+  position: absolute;
+  width: 100%;
+  bottom: -10px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15px;
+}
+
+.guide {
+  height: 10px;
+  width: 1px;
+  background-color: red;
+}

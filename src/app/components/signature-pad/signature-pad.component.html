@@ -1,0 +1,16 @@
+<div>
+  <canvas class="canvas-container"
+  #canvas
+  width="400"
+  height="200"
+  (mousedown)="onMouseDown($event)"
+  (mousemove)="onMouseMove($event)"
+  (mouseup)="onMouseUp()"
+  (mouseleave)="onMouseLeave()"
+  (drop)="onDrop($event)"
+  (dragover)="onDragOver($event)"
+  ></canvas>
+  <button (click)="clearCanvas()">Borrar</button>
+  <button #btnDownloadJPG (click)="saveSignatureJPG()" >Guardar JPG</button>
+  <button #btnDownloadPNG (click)="saveSignaturePNG()" >Guardar PNG</button>
+</div>

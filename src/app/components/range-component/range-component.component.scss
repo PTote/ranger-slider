@@ -1,0 +1,115 @@
+.range-slider-container {
+  outline: 1px red solid;
+  width: 100%;
+  max-width: 738px;
+  padding-top: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  position: relative;
+}
+
+.range-slider-container .range-input {
+  grid-column: 1 / 3;
+  grid-row: 1 / 2;
+  width: 90%;
+  max-width: 595px;
+  justify-self: center;
+}
+
+.range-slider-container .range-input input {
+  width: 100%;
+  margin: 0;
+}
+
+.range-slider-container .range-divider {
+  grid-column: 1 / 3;
+  grid-row: 2 / 3;
+  width: 85%;
+  max-width: 575px;
+  display: flex;
+  justify-content: space-between;
+  justify-self: center;
+
+  @media screen and (min-width: 450px) {
+    width: 86%;
+  }
+
+  @media screen and (min-width: 600px) and (max-width: 690px) {
+    width: 87%;
+  }
+
+}
+
+.range-slider-container .range-label-container{
+  grid-column: 1 / 3;
+  grid-row: 3 / 4;
+  justify-self: center;
+  outline: 1px red solid;
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+}
+
+.input-range-control {
+  --just-yellow: rgba(255, 216, 0, 1);
+  --slider-color: rgba(104, 173, 252, 0.5);
+}
+
+
+
+.slider input[type='range'] {
+  grid-column: span 2;
+  width: 100%;
+}
+
+
+.input-range {
+  width: 100%;
+  height: 0.3rem;
+  appearance: none;
+  border-radius: 0.3125rem;
+  background: linear-gradient(to right,
+      var(--just-yellow) 0%,
+      var(--just-yellow) 0%,
+      var(--slider-color) 0%,
+      var(--slider-color) 100%);
+}
+
+// (use -moz- (Firefox)
+.input-range::-moz-range-thumb {
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: var(--just-yellow);
+  border: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  appearance: none;
+}
+
+// (use -webkit- (Chrome, Opera, Safari, Edge)
+.input-range::-webkit-slider-thumb {
+  width: 19px;
+  height: 19px;
+  // background-color: transparent;
+  background-color: var(--just-yellow);
+  border-radius: 50%;
+  cursor: pointer;
+  appearance: none;
+}
+
+label {
+  color: #2B2E31;
+  font-size: 14px;
+  font-weight: 700;
+  font-style: normal;
+  font-family: Lato, 'Helvetica Neue', sans-serif;
+}
+
+
+.guide {
+  height: 10px;
+  width: 1px;
+  background-color: red;
+}
+
