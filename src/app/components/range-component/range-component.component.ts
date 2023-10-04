@@ -20,16 +20,17 @@ export class RangeComponentComponent implements OnChanges, OnInit {
    * numberOfGuides = Set the number of guides to show
    */
 
-  oldStepValue: string = '0';
+  valuesError: boolean = false;
 
   @Input() maxValue: number = 0;
   @Input() minValue: number = 0;
-  @Input() prefix: string = '';
+  @Input() prefix: string = 'L';
   @Input() manualValue: string = '0';
   @Input() stepValue: number = 100;
   @Input() handleSteps: boolean = false;
   @Input() showGuides: boolean = true;
   @Input() numberOfGuides: number = 10;
+  @Input() showValuesLabels: boolean = true;
 
   @Output() currentValue = new EventEmitter<string>();
 
@@ -50,10 +51,15 @@ export class RangeComponentComponent implements OnChanges, OnInit {
   ngOnInit(): void {
     this.handleStepsValue();
     this.createGuides();
-    this.manualValue = '1000'
+    this.currentValue.emit(String(this.minValue));
+    this.validateValues();
   }
 
-
+  private validateValues() {
+    if (this.minValue >= this.maxValue) {
+      this.valuesError = true
+    }
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['manualValue']) {
@@ -63,7 +69,7 @@ export class RangeComponentComponent implements OnChanges, OnInit {
 
 
 
-  sliderLayout(element: HTMLElement, value: string) {
+  private sliderLayout(element: HTMLElement, value: string) {
     element.style.background = `
     linear-gradient(
         to right,
@@ -79,14 +85,12 @@ export class RangeComponentComponent implements OnChanges, OnInit {
   changeColorRange($event?: any) {
     const inputElement = $event.target as HTMLInputElement;
     const value = this.valueRange(inputElement.value);
-    // this.currentStepGuide(inputElement.value)
     this.currentValue.emit(inputElement.value);
     this.sliderLayout(this.range.nativeElement, value);
   }
 
   getManualValue() {
     let value: string = '';
-    // this.currentStepGuide(this.manualValue)
 
 
     if (!this.range) return;
@@ -98,38 +102,31 @@ export class RangeComponentComponent implements OnChanges, OnInit {
       value = this.valueRange(this.manualValue);
     }
 
+    if (!this.valuesError) {
+      this.currentValue.emit(this.manualValue);
+      this.sliderLayout(this.range.nativeElement, value);
+    }
 
 
-    this.currentValue.emit(this.manualValue);
-    this.sliderLayout(this.range.nativeElement, value);
   }
 
-  valueRange(value: string) {
+  private valueRange(value: string) {
     return (((parseInt(value) - this.minValue) / (this.maxValue - this.minValue)) * 100).toFixed(0)
   }
 
-  createGuides() {
-    let id = 0;
+  private createGuides() {
 
     if (this.showGuides) {
 
       if (this.rangeDividerContainer) {
 
-        const stepByGuide = Math.round(this.calculateTotalSteps() / this.numberOfGuides);
-
-        const idGuide = this.maxValue / 10;
-
         for (let index = 0; index < this.numberOfGuides; index++) {
           const nuevoDiv = document.createElement('div');
-          nuevoDiv.setAttribute('id', `${id}`)
+          nuevoDiv.setAttribute('id', `${index}`)
           nuevoDiv.style.width = '1px';
           nuevoDiv.style.height = '8px';
           nuevoDiv.style.background = this.colorsGuide.guideNormal;
-
-
-
           this.rangeDividerContainer.nativeElement.appendChild(nuevoDiv);
-          id += idGuide;
         }
 
       }
@@ -142,53 +139,20 @@ export class RangeComponentComponent implements OnChanges, OnInit {
     return this.handleSteps ? this.stepValue : 1;
   }
 
-  calculateTotalSteps() {
-    return ((this.maxValue - this.minValue) / (this.stepValue)) + 1;
-  }
 
 
-  currentStepGuide(value: string = '0') {
-
-    if (this.handleSteps) {
-
-
-
-      console.log(value);
-      console.log('this.oldStepValue: ', this.oldStepValue);
-
-
-      // let numberStep = ((Number(value) - this.minValue) / this.stepValue);
-      // console.log(numberStep);
-
-      const guideId = document.getElementById(`${value}`);
-      if (guideId) {
-        this.oldStepValue = value;
-        guideId.style.background = this.colorsGuide.guideSelected;
-      } else {
-
-
-        const stepOld = document.getElementById(`${this.oldStepValue}`);
-
-        if (stepOld && this.oldStepValue !== value) {
-          stepOld.style.background = this.colorsGuide.guideNormal;
-        }
-
-
-
-
-      }
-
+  formatNumber(value: number): string {
+    const format = new Intl.NumberFormat('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(value);
+    if (!format.includes('.')) {
+      return format.concat('.00');
     }
 
+    return format;
   }
 
-
-
-  tester($event: any) {
-    const inputElement = $event.target as HTMLInputElement;
-    const value = this.valueRange(inputElement.value);
-    console.log(value);
-  }
 
 
 }

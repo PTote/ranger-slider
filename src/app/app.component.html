@@ -1,20 +1,25 @@
 <app-range-component
   [maxValue]="100000"
   [minValue]="1000"
-  [prefix]="'$'"
+  [prefix]="'L'"
+  [showValuesLabels]="true"
   [manualValue]="manualValue"
   [handleSteps]="true"
   [stepValue]="100"
   [showGuides]="true"
   [numberOfGuides]="11"
   (currentValue)="rangeValue($event)"
+
 ></app-range-component>
 
 <div>
+  <br>
   <span>Value: {{ valueReturn }}</span>
+
+  <div>
+    <label for="">Ingresar valor manual: </label>
+    <input type="text" (keyup)="setValue($event)" />
+  </div>
 </div>
 
-<div>
-  <label for="">Ingresar valor manual</label>
-  <input type="text" (keyup)="setValue($event)" />
-</div>
+
