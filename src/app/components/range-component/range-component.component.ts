@@ -20,7 +20,7 @@ export class RangeComponentComponent implements OnChanges, OnInit {
    * numberOfGuides = Set the number of guides to show
    */
 
-  oldStepValue: number = 0;
+  oldStepValue: string = '0';
 
   @Input() maxValue: number = 0;
   @Input() minValue: number = 0;
@@ -50,6 +50,7 @@ export class RangeComponentComponent implements OnChanges, OnInit {
   ngOnInit(): void {
     this.handleStepsValue();
     this.createGuides();
+    this.manualValue = '1000'
   }
 
 
@@ -58,8 +59,6 @@ export class RangeComponentComponent implements OnChanges, OnInit {
     if (changes['manualValue']) {
       this.getManualValue();
     }
-
-    this.currentStepGuide();
   }
 
 
@@ -80,14 +79,14 @@ export class RangeComponentComponent implements OnChanges, OnInit {
   changeColorRange($event?: any) {
     const inputElement = $event.target as HTMLInputElement;
     const value = this.valueRange(inputElement.value);
-    this.currentStepGuide(inputElement.value)
+    // this.currentStepGuide(inputElement.value)
     this.currentValue.emit(inputElement.value);
     this.sliderLayout(this.range.nativeElement, value);
   }
 
   getManualValue() {
     let value: string = '';
-    this.currentStepGuide(this.manualValue)
+    // this.currentStepGuide(this.manualValue)
 
 
     if (!this.range) return;
@@ -118,21 +117,19 @@ export class RangeComponentComponent implements OnChanges, OnInit {
 
         const stepByGuide = Math.round(this.calculateTotalSteps() / this.numberOfGuides);
 
+        const idGuide = this.maxValue / 10;
+
         for (let index = 0; index < this.numberOfGuides; index++) {
           const nuevoDiv = document.createElement('div');
           nuevoDiv.setAttribute('id', `${id}`)
           nuevoDiv.style.width = '1px';
           nuevoDiv.style.height = '8px';
+          nuevoDiv.style.background = this.colorsGuide.guideNormal;
 
-          if (id <= 0) {
-            nuevoDiv.style.background = this.colorsGuide.guideSelected;
-          } else {
-            nuevoDiv.style.background = this.colorsGuide.guideNormal;
-          };
 
 
           this.rangeDividerContainer.nativeElement.appendChild(nuevoDiv);
-          id += stepByGuide;
+          id += idGuide;
         }
 
       }
@@ -154,25 +151,43 @@ export class RangeComponentComponent implements OnChanges, OnInit {
 
     if (this.handleSteps) {
 
-      let numberStep = ((Number(value) - this.minValue) / this.stepValue);
-      console.log(numberStep);
-      const guideId = document.getElementById(`${numberStep}`);
+
+
+      console.log(value);
+      console.log('this.oldStepValue: ', this.oldStepValue);
+
+
+      // let numberStep = ((Number(value) - this.minValue) / this.stepValue);
+      // console.log(numberStep);
+
+      const guideId = document.getElementById(`${value}`);
       if (guideId) {
-        this.oldStepValue = numberStep;
+        this.oldStepValue = value;
         guideId.style.background = this.colorsGuide.guideSelected;
       } else {
 
-        console.log('old step: ', this.oldStepValue)
+
         const stepOld = document.getElementById(`${this.oldStepValue}`);
 
-        if (stepOld && this.oldStepValue !== numberStep) {
+        if (stepOld && this.oldStepValue !== value) {
           stepOld.style.background = this.colorsGuide.guideNormal;
         }
+
+
+
 
       }
 
     }
 
+  }
+
+
+
+  tester($event: any) {
+    const inputElement = $event.target as HTMLInputElement;
+    const value = this.valueRange(inputElement.value);
+    console.log(value);
   }
 
 

@@ -1,4 +1,4 @@
-<div class="range-slider-container">
+<!-- <div class="range-slider-container">
   <div class="range-input">
     <div class="input-range-control">
       <input
@@ -14,22 +14,42 @@
         #range
         [step]="handleStepsValue()"
       />
-
     </div>
   </div>
 
-  <div class="range-divider" #rangeDividerContainer>
-  </div>
+  <div class="range-divider" #rangeDividerContainer></div> -->
 
-  <div class="range-label-container">
+<!-- <div class="range-label-container">
     <label for="range-slider" class="range-min"
-    >{{ prefix }}. {{ minValue | currency}}</label
-  >
-  <label for="range-slider" class="range-max"
-    >{{ prefix }}. {{ maxValue }}</label
-  >
+      >{{ prefix }}. {{ minValue | currency }}</label
+    >
+    <label for="range-slider" class="range-max"
+      >{{ prefix }}. {{ maxValue }}</label
+    >
+  </div> -->
+<!-- </div> -->
+
+<div class="range-container">
+  <div class="div1">
+    <div class="range-input">
+      <div class="input-range-control">
+        <input
+          class="input-range"
+          [value]="manualValue"
+          [min]="minValue"
+          [max]="maxValue"
+          type="range"
+          name="range..."
+          id="range"
+          aria-label="control range ..."
+          (input)="changeColorRange($event)"
+          #range
+          [step]="handleStepsValue()"
+        />
+      </div>
+    </div>
   </div>
-
-
-
+  <div class="div2">
+    <div class="range-divider" #rangeDividerContainer></div>
+  </div>
 </div>
