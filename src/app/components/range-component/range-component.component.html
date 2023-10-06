@@ -1,9 +1,8 @@
 <div class="range-container">
-  <div class="div1">
-    <div class="range-input">
-      <div class="input-range-control">
+  <div class="range">
+      <div class="range__control">
         <input
-          class="input-range"
+          class="range__input"
           [value]="manualValue"
           [min]="minValue"
           [max]="maxValue"
@@ -15,18 +14,17 @@
           #range
           [step]="handleStepsValue()"
         />
-      </div>
     </div>
   </div>
-  <div class="div2">
-    <div class="range-divider" #rangeDividerContainer></div>
+  <div class="guides">
+    <div class="guides__range-guides" #rangeDividerContainer></div>
   </div>
 
-  <div class="range-label-container" *ngIf="showValuesLabels">
-    <label for="range-slider" class="range-min"
+  <div class="labels" *ngIf="showValuesLabels">
+    <label for="minValue" class="labels__range-minValue"
       >{{ prefix }}. {{ formatNumber(minValue) }}</label
     >
-    <label for="range-slider" class="range-max"
+    <label for="maxValue" class="labels__range-maxValue"
       >{{ prefix }}. {{ formatNumber(maxValue) }}</label
     >
   </div>
